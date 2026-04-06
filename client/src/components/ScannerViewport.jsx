@@ -1,4 +1,4 @@
-import { CameraOff, RefreshCw } from 'lucide-react';
+import { Camera, CameraOff, RefreshCw } from 'lucide-react';
 import { Html5Qrcode } from 'html5-qrcode';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 
@@ -18,8 +18,15 @@ const getFriendlyError = (message = '') => {
     return 'Camera scanning needs a secure context. Use HTTPS or localhost during development.';
   }
 
-  return 'We could not start your camera scanner. Check permissions and device support.';
+  if (/camera|video|notfound/i.test(message)) {
+    return 'No usable camera was found. Try another device or switch to image upload.';
+  }
+
+  return 'We could not start your camera scanner. Check permissions, focus, and device support.';
 };
+
+const getPreferredCamera = (cameras = []) =>
+  cameras.find((camera) => /back|rear|environment/i.test(camera.label)) || cameras[0] || null;
 
 export default function ScannerViewport({ onDetected }) {
   const scannerId = useMemo(() => `qr-reader-${Math.random().toString(36).slice(2)}`, []);
@@ -28,6 +35,7 @@ export default function ScannerViewport({ onDetected }) {
   const [status, setStatus] = useState('booting');
   const [error, setError] = useState('');
   const [retryKey, setRetryKey] = useState(0);
+  const [cameraLabel, setCameraLabel] = useState('');
 
   const teardownScanner = useCallback(async () => {
     if (!scannerRef.current) {
@@ -35,7 +43,9 @@ export default function ScannerViewport({ onDetected }) {
     }
 
     try {
-      await scannerRef.current.stop();
+      if (scannerRef.current.isScanning) {
+        await scannerRef.current.stop();
+      }
     } catch {
       // The scanner may already be stopped.
     }
@@ -52,10 +62,11 @@ export default function ScannerViewport({ onDetected }) {
   const startScanner = useCallback(async () => {
     setStatus('booting');
     setError('');
+    setCameraLabel('');
     hasScannedRef.current = false;
     await teardownScanner();
 
-    const scanner = new Html5Qrcode(scannerId);
+    const scanner = new Html5Qrcode(scannerId, { verbose: false });
     scannerRef.current = scanner;
 
     const handleSuccess = async (decodedText) => {
@@ -70,19 +81,29 @@ export default function ScannerViewport({ onDetected }) {
     };
 
     try {
-      await scanner.start({ facingMode: { exact: 'environment' } }, scanConfig, handleSuccess);
-    } catch (primaryError) {
+      const cameras = await Html5Qrcode.getCameras();
+      const preferredCamera = getPreferredCamera(cameras);
+
+      if (!preferredCamera) {
+        throw new Error('No camera devices available.');
+      }
+
+      setCameraLabel(preferredCamera.label || 'Selected camera');
+      await scanner.start(preferredCamera.id, scanConfig, handleSuccess, () => {});
+      setStatus('scanning');
+      return;
+    } catch (cameraLookupError) {
       try {
-        await scanner.start({ facingMode: 'environment' }, scanConfig, handleSuccess);
+        await scanner.start({ facingMode: { ideal: 'environment' } }, scanConfig, handleSuccess, () => {});
+        setCameraLabel('Back camera');
+        setStatus('scanning');
+        return;
       } catch (fallbackError) {
         setStatus('error');
-        setError(getFriendlyError(fallbackError?.message || primaryError?.message));
+        setError(getFriendlyError(fallbackError?.message || cameraLookupError?.message));
         await teardownScanner();
-        return;
       }
     }
-
-    setStatus('scanning');
   }, [onDetected, scannerId, teardownScanner]);
 
   useEffect(() => {
@@ -109,18 +130,25 @@ export default function ScannerViewport({ onDetected }) {
           <div>
             <p className="text-sm font-semibold text-[rgb(var(--text))]">{status === 'scanning' ? 'Scanner live' : 'Preparing camera'}</p>
             <p className="mt-1 text-sm text-[rgb(var(--muted))]">
-              Aim at a QR code and we will move you straight into the result flow.
+              Aim the code inside the frame and hold for a moment while we lock the first clean result.
             </p>
           </div>
           <span className="badge">{status}</span>
         </div>
+
+        {cameraLabel ? (
+          <div className="inline-flex max-w-fit items-center gap-2 rounded-full bg-[rgba(var(--secondary),0.1)] px-3 py-2 text-xs font-semibold text-[rgb(var(--secondary))]">
+            <Camera size={14} />
+            {cameraLabel}
+          </div>
+        ) : null}
 
         {error ? <div className="status-danger rounded-2xl px-4 py-3 text-sm font-medium">{error}</div> : null}
 
         <div className="flex flex-col gap-3 sm:flex-row">
           <div className="button-secondary flex-1 justify-start rounded-2xl px-4 py-3 text-sm">
             <CameraOff size={18} />
-            Good lighting helps decode faster.
+            Good lighting and a steady hand help decode faster.
           </div>
           <button
             type="button"
@@ -128,7 +156,7 @@ export default function ScannerViewport({ onDetected }) {
             className="button-secondary flex-1 rounded-2xl px-4 py-3 text-sm"
           >
             <RefreshCw size={18} />
-            Retry camera
+            Restart scanner
           </button>
         </div>
       </div>

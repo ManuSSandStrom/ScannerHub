@@ -17,7 +17,7 @@ export default function UploadPage() {
       <PageHeader
         eyebrow="Upload decode"
         title="Pull QR data from any image"
-        description="Drop in screenshots, saved passes, or printed collateral. We validate empty uploads and surface friendly errors for invalid images."
+        description="Open your gallery, choose a screenshot or saved image with a QR code, and we will decode it with a clearer preview and friendlier validation."
       />
       <div className="grid gap-6 lg:grid-cols-[1.15fr_0.85fr]">
         <UploadDropzone onDetected={handleDetected} />
