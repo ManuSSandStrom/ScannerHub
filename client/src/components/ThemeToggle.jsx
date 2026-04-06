@@ -8,10 +8,10 @@ export default function ThemeToggle() {
     <button
       type="button"
       onClick={toggleTheme}
-      className="button-secondary h-11 w-11 rounded-2xl px-0"
+      className="button-secondary h-8 w-8 rounded-xl px-0"
       aria-label="Toggle color mode"
     >
-      {theme === 'light' ? <MoonStar size={18} /> : <SunMedium size={18} />}
+      {theme === 'light' ? <MoonStar size={14} /> : <SunMedium size={14} />}
     </button>
   );
 }
