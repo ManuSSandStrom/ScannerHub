@@ -1,0 +1,19 @@
+<svg width="256" height="256" viewBox="0 0 256 256" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <rect width="256" height="256" rx="64" fill="#0F172A"/>
+  <rect x="32" y="32" width="192" height="192" rx="48" fill="url(#paint0_linear_1_2)"/>
+  <rect x="58" y="58" width="54" height="54" rx="18" fill="#FFF9F2"/>
+  <rect x="73" y="73" width="24" height="24" rx="8" fill="#0F172A"/>
+  <rect x="144" y="58" width="54" height="54" rx="18" fill="#FFF9F2"/>
+  <rect x="159" y="73" width="24" height="24" rx="8" fill="#0F172A"/>
+  <rect x="58" y="144" width="54" height="54" rx="18" fill="#FFF9F2"/>
+  <rect x="73" y="159" width="24" height="24" rx="8" fill="#0F172A"/>
+  <path d="M150 147.5C150 143.358 153.358 140 157.5 140H165C169.142 140 172.5 143.358 172.5 147.5V155C172.5 159.142 169.142 162.5 165 162.5H157.5C153.358 162.5 150 159.142 150 155V147.5Z" fill="#FFF9F2"/>
+  <path d="M178 173.5C178 169.358 181.358 166 185.5 166H193C197.142 166 200.5 169.358 200.5 173.5V181C200.5 185.142 197.142 188.5 193 188.5H185.5C181.358 188.5 178 185.142 178 181V173.5Z" fill="#FFF9F2"/>
+  <path d="M150 175.5C150 171.358 153.358 168 157.5 168H165C169.142 168 172.5 171.358 172.5 175.5V183C172.5 187.142 169.142 190.5 165 190.5H157.5C153.358 190.5 150 187.142 150 183V175.5Z" fill="#FFF9F2"/>
+  <defs>
+    <linearGradient id="paint0_linear_1_2" x1="48" y1="44" x2="214" y2="214" gradientUnits="userSpaceOnUse">
+      <stop stop-color="#FF7A59"/>
+      <stop offset="1" stop-color="#14B8A6"/>
+    </linearGradient>
+  </defs>
+</svg>
