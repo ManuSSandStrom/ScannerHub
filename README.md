@@ -211,13 +211,78 @@ If you already exposed credentials in a shared place, rotate that database passw
 
 ## APK Note
 
-- This repository ships an installable PWA, not a signed native Android APK.
-- A real downloadable APK or Play Store package would require a native wrapper workflow such as Capacitor or Trusted Web Activity plus Android build/signing setup.
+- This repository ships both the installable PWA and a Capacitor-based Android wrapper project.
+- The included GitHub Actions workflow builds a downloadable debug APK artifact.
+- Publishing a production Play Store build still requires release signing, final store assets, and Play Console setup.
+
+## Android App Packaging
+
+- This repo now includes Capacitor with a committed `android/` project so the web app can be packaged as a real Android application.
+- The Android app uses the built frontend from `client/dist` and loads it inside the native Capacitor WebView.
+- Camera scanning in the Android app is enabled with the native `CAMERA` permission in `AndroidManifest.xml`.
+
+### Android Prerequisites
+
+- A deployed backend API reachable over HTTPS, because packaged Android builds cannot use the web-only relative `/api` fallback.
+- Android Studio with the bundled JDK and Android SDK for local APK builds.
+
+### Configure the Android API URL
+
+Use a deployed backend URL before syncing or building Android:
+
+```bash
+cp client/.env.android.example client/.env
+```
+
+Then set:
+
+```bash
+VITE_API_BASE_URL=https://your-api-domain.example.com/api
+```
+
+### Local Android Workflow
+
+1. Install dependencies:
+
+```bash
+npm install
+npm run install:all
+```
+
+2. Build and sync the Android project:
+
+```bash
+npm run android:sync
+```
+
+3. Open the native project:
+
+```bash
+npm run android:open
+```
+
+4. In Android Studio, build the debug APK or create a signed release build.
+
+### Manual CLI Checks
+
+- `npm run android:doctor` validates the Capacitor Android setup.
+- `npm run android:sync` rebuilds the web assets and copies them into the Android project.
+
+### GitHub Actions APK Build
+
+- A manual workflow is included at `.github/workflows/android-apk.yml`.
+- Run `Build Android APK` from the GitHub Actions tab and pass your deployed HTTPS API base URL.
+- The workflow builds a debug APK and uploads it as a downloadable artifact named `scannerhub-debug-apk`.
 
 ## Useful Scripts
 
 - `npm run dev` - run client and server together
 - `npm run build` - build the frontend bundle
+- `npm run build:web` - build the frontend bundle for web and Capacitor
 - `npm start` - start the backend in production mode
 - `npm run dev --prefix client` - frontend only
 - `npm run dev --prefix server` - backend only
+- `npm run android:copy` - build the web app and copy it into Android
+- `npm run android:sync` - build the web app and sync Android dependencies/assets
+- `npm run android:doctor` - validate the local Capacitor Android setup
+- `npm run android:open` - open the Android Studio project

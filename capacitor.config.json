@@ -1,0 +1,5 @@
+{
+  "appId": "com.manussandstrom.scannerhub",
+  "appName": "QR Share Hub",
+  "webDir": "client/dist"
+}
