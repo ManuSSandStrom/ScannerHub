@@ -1,13 +1,19 @@
 {
   "name": "QR Share Hub",
   "short_name": "QR Share",
+  "id": "/",
+  "lang": "en-US",
+  "dir": "ltr",
   "description": "Scan, store, and share QR content in a clean mobile-first PWA.",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",
+  "display_override": ["standalone", "minimal-ui", "browser"],
   "orientation": "portrait-primary",
   "background_color": "#f6f2e8",
   "theme_color": "#ff7a59",
+  "categories": ["utilities", "productivity"],
+  "prefer_related_applications": false,
   "icons": [
     {
       "src": "/icons/icon-192.png",

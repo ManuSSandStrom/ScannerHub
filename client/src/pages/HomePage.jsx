@@ -63,7 +63,7 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="mt-4 text-sm leading-7 text-white/70">
-                Add the app to your home screen to make QR scanning feel like a native utility, not a clunky tab.
+                Install it on Android from the browser prompt or menu. On iPhone, use Safari and tap Share, then Add to Home Screen.
               </p>
             </div>
           </div>

@@ -203,6 +203,17 @@ If you already exposed credentials in a shared place, rotate that database passw
 - Standalone install support
 - Offline fallback page
 
+## Mobile Install Notes
+
+- Android browsers may show a native install sheet through `beforeinstallprompt`, or a manual browser-menu action such as `Install app` or `Add to Home screen`.
+- iPhone and iPad do not expose the same install event in Safari, so installation should be done with `Share > Add to Home Screen`.
+- If the site is opened in Chrome or another iOS browser, the app should guide the user to reopen it in Safari for installation.
+
+## APK Note
+
+- This repository ships an installable PWA, not a signed native Android APK.
+- A real downloadable APK or Play Store package would require a native wrapper workflow such as Capacitor or Trusted Web Activity plus Android build/signing setup.
+
 ## Useful Scripts
 
 - `npm run dev` - run client and server together

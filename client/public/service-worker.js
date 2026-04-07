@@ -1,4 +1,4 @@
-const CACHE_NAME = 'qr-share-hub-v1';
+const CACHE_NAME = 'qr-share-hub-v2';
 const APP_SHELL = [
   '/',
   '/offline.html',
