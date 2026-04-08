@@ -61,7 +61,7 @@ export default function AppShell({ children }) {
         </header>
 
         <main className="flex-1">{children}</main>
-        <InstallPrompt />
+        {location.pathname !== '/' ? <InstallPrompt /> : null}
         <MobileNav />
       </div>
     </div>

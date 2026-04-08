@@ -1,6 +1,7 @@
 import { ArrowRight, ShieldCheck, Share2, Sparkles, ScanLine } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
 import HistoryList from '../components/HistoryList';
+import InstallPrompt from '../components/InstallPrompt';
 import StatPill from '../components/StatPill';
 import { useAppContext } from '../context/AppContext';
 
@@ -63,8 +64,11 @@ export default function HomePage() {
                 </div>
               </div>
               <p className="mt-4 text-sm leading-7 text-white/70">
-                Install it on Android from the browser prompt or menu. On iPhone, use Safari and tap Share, then Add to Home Screen.
+                On Android, install from the prompt or browser menu. On iPhone, open the site in Safari and use Share, then Add to Home Screen.
               </p>
+            </div>
+            <div className="mt-4 sm:mt-5">
+              <InstallPrompt variant="inline" dismissible={false} />
             </div>
           </div>
         </div>
