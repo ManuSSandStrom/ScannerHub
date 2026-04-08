@@ -27,7 +27,7 @@ export default function AppShell({ children }) {
         <div className="absolute bottom-0 left-1/3 h-72 w-72 rounded-full bg-white/20 blur-3xl" />
       </div>
 
-      <div className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 pb-28 pt-4 sm:px-6 sm:pb-10 lg:px-8">
+      <div className="relative mx-auto flex min-h-screen w-full max-w-6xl flex-col px-4 pb-44 pt-4 sm:px-6 sm:pb-10 lg:px-8">
         <header className="glass-card mb-6 flex items-center justify-between rounded-[30px] px-4 py-3 sm:mb-8 sm:px-6">
           <Link to="/" className="flex items-center gap-3">
             <BrandMark />
@@ -61,7 +61,7 @@ export default function AppShell({ children }) {
         </header>
 
         <main className="flex-1">{children}</main>
-        {location.pathname !== '/' ? <InstallPrompt /> : null}
+        <InstallPrompt />
         <MobileNav />
       </div>
     </div>

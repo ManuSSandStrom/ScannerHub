@@ -60,10 +60,10 @@ export function getInstallContext() {
 export function getInstallContent({ installContext, canAutoInstall }) {
   if (canAutoInstall) {
     return {
-      description: 'Add QR Share Hub to your phone for a full-screen launch, faster reopen, and app-like access from your home screen.',
-      note: 'If the browser asks for confirmation, approve it and the app will be added to your device.',
+      description: 'Tap the button below and your browser will show the app install flow directly inside the phone.',
+      note: 'After installation, open QR Share Hub from your device like an app for a standalone full-screen experience.',
       steps: [
-        'Tap Install below.',
+        'Tap Download App below.',
         'Approve the browser confirmation if it appears.',
         'Open QR Share Hub from your home screen or app drawer.',
       ],
@@ -74,7 +74,7 @@ export function getInstallContent({ installContext, canAutoInstall }) {
   if (installContext.isIos) {
     if (installContext.isSafari) {
       return {
-        description: 'On iPhone and iPad, Safari can save this site to your home screen so it opens like an app.',
+        description: 'iPhone and iPad do not allow direct web app downloads from a website button, but Safari can still install this app-like version.',
         note: 'Apple does not install PWAs like App Store apps. The supported path is Safari, then Add to Home Screen.',
         steps: [
           'Tap the Share button in Safari.',
@@ -99,11 +99,11 @@ export function getInstallContent({ installContext, canAutoInstall }) {
 
   if (installContext.isAndroid) {
     return {
-      description: `${installContext.browserName} on Android usually installs this app from the browser menu, even if no popup appears automatically.`,
-      note: 'Some Android browsers wait until the site has a little engagement before showing the automatic install prompt.',
+      description: `${installContext.browserName} on Android can install this as an app. If the direct prompt is not available, use the browser menu option shown on your phone.`,
+      note: 'In Chrome on Android, the menu item may say Add to Home screen instead of Install app. That still gives you the installed app-like version.',
       steps: [
         'Open the browser menu.',
-        'Tap Install app or Add to Home screen.',
+        'Tap Add to Home screen or Install app.',
         'Open QR Share Hub from your home screen or app drawer.',
       ],
       title: 'Install On Android',
